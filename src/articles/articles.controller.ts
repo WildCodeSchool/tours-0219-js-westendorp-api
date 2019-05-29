@@ -10,6 +10,12 @@ export class ArticlesController {
   async readAll() {
     return await this.articlesService.getAll();
   }
+  /*DEBUT ESSAI DE LA METHODE RECUPERATION PAR SECTIONS
+  @Get(':section')
+  async sectionArticle(@Param('section') section:string) {
+    return await this.articlesService.getBySection(section);
+  }*/
+
   @Post()
     async  createArticle(@Body() articleDTO: CreateArticleDTO) {
     return await this.articlesService.create(articleDTO);
