@@ -43,11 +43,9 @@ export class ArticlesService {
 
   async getById(id: string): Promise<Articles> {
     const article = await this.articlesModel.findById(id);
-
     if (!article) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
-
     return article;
   }
 }
