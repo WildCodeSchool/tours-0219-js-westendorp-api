@@ -2,6 +2,7 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Medias } from './medias';
+import { MediasDTO } from './medias.dto';
 
 @Injectable()
 export class MediasService {
@@ -26,4 +27,8 @@ export class MediasService {
     return media;
   }
 
+  async create(mediasDTO: MediasDTO): Promise<Medias> {
+    const model: Medias = new this.mediasModel(mediasDTO);
+    return await model.save();
+  }
 }

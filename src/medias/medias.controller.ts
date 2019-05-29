@@ -1,5 +1,7 @@
-import { Controller, Get, Delete, Param } from '@nestjs/common';
+import { Controller, Get, Delete, Param, Post,Body} from '@nestjs/common';
 import { MediasService } from './medias.service';
+import { MediasDTO } from './medias.dto';
+
 
 @Controller('medias')
 export class MediasController {
@@ -19,4 +21,9 @@ export class MediasController {
     async readOne(@Param('id') id: string) {
     return await this.mediasService.getById(id);
   }
+  @Post()
+    async  createMedia(@Body() mediasDTO: MediasDTO) {
+    return await this.mediasService.create(mediasDTO);
+  }
+
 }
