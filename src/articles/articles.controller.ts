@@ -7,11 +7,11 @@ import { UpdateArticleDTO } from './articles.dto.update';
 export class ArticlesController {
   constructor (private readonly articlesService:ArticlesService) {}
   @Get()
-  async readAll(){
+  async readAll() {
     return await this.articlesService.getAll();
   }
   @Post()
-    async  createArticle(@Body() articleDTO: CreateArticleDTO){
+    async  createArticle(@Body() articleDTO: CreateArticleDTO) {
     return await this.articlesService.create(articleDTO);
   }
 
@@ -21,7 +21,13 @@ export class ArticlesController {
   }
 
   @Delete(':id')
-  async removeArticle(@Param('id') id:string){
+  async removeArticle(@Param('id') id:string) {
     return await this.articlesService.delete(id);
   }
+
+  @Get(':id')
+    async readOne(@Param('id') id: string) {
+    return await this.articlesService.getById(id);
+  }
+
 }
