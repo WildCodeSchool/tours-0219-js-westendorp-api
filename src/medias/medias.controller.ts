@@ -14,4 +14,9 @@ export class MediasController {
   async removeMedia(@Param('id') id:string) {
     return await this.mediasService.delete(id);
   }
+
+  @Get(':id')
+    async readOne(@Param('id') id: string) {
+    return await this.mediasService.getById(id);
+  }
 }

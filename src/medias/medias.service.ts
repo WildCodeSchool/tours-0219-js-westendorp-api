@@ -18,4 +18,12 @@ export class MediasService {
     }
     return media;
   }
+  async getById(id: string): Promise<Medias> {
+    const media = await this.mediasModel.findById(id);
+    if (!media) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+    return media;
+  }
+
 }
