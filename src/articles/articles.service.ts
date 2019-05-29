@@ -27,4 +27,11 @@ export class ArticlesService {
     }
     return article;
   }
+  async delete(id:string):Promise<Articles> {
+    const article = await this.articlesModel.findByIdAndRemove(id);
+    if (!article) {
+      throw new HttpException("Doesn't exist", HttpStatus.NOT_FOUND);
+    }
+    return article;
+  }
 }
