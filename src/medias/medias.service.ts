@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Medias } from './medias';
@@ -11,4 +11,11 @@ export class MediasService {
     return await this.mediasModel.find().exec();
   }
 
+  async delete(id: string): Promise<Medias> {
+    const media = await this.mediasModel.findByIdAndRemove(id);
+    if (!media) {
+      throw new HttpException("Doesn't exist", HttpStatus.NOT_FOUND);
+    }
+    return media;
+  }
 }
