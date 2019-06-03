@@ -8,6 +8,9 @@ import { MediasDTO } from './medias.dto';
 export class MediasService {
   constructor (@InjectModel('medias') private readonly mediasModel:Model<Medias>) {}
 
+  async getByType(type:string):Promise<Medias[]> {
+    return await this.mediasModel.find(type).exec();
+  }
   async getAll(): Promise<Medias[]> {
     return await this.mediasModel.find().exec();
   }

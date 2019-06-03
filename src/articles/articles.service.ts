@@ -11,13 +11,14 @@ export class ArticlesService {
     @InjectModel('articles') private readonly articlesModel: Model<Articles>,
   ) {}
 
+ async getBySection(section:string):Promise<Articles[]> {
+    return await this.articlesModel.find(section).exec();
+  }
+
   async getAll(): Promise<Articles[]> {
     return await this.articlesModel.find().exec();
   }
-/*DEBUT ESSAI DE RECUPERATION PAR SECTIONS
-  async getBySection(section:string):Promise<Articles[]> {
-    return await this.articlesModel.find(section).exec();
-  }*/
+
 
   async create(articleDTO: CreateArticleDTO): Promise<Articles> {
     const model: Articles = new this.articlesModel(articleDTO);

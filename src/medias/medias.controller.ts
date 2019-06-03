@@ -1,4 +1,4 @@
-import { Controller, Get, Delete, Param, Post, Body } from '@nestjs/common';
+import { Controller, Get, Delete, Param, Post, Body, Query } from '@nestjs/common';
 import { MediasService } from './medias.service';
 import { MediasDTO } from './medias.dto';
 
@@ -11,6 +11,10 @@ export class MediasController {
     return await this.mediasService.getAll();
   }
 
+  @Get('search')
+  async typeMedia(@Query() type:string) {
+    return await this.mediasService.getByType(type);
+  }
   @Delete(':id')
   async removeMedia(@Param('id') id:string) {
     return await this.mediasService.delete(id);

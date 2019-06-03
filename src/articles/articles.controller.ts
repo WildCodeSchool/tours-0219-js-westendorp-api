@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, Query } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDTO } from './articles.dto.create';
 import { UpdateArticleDTO } from './articles.dto.update';
@@ -6,16 +6,19 @@ import { UpdateArticleDTO } from './articles.dto.update';
 @Controller('articles')
 export class ArticlesController {
   constructor (private readonly articlesService:ArticlesService) {}
+
+
   @Get()
   async readAll() {
     return await this.articlesService.getAll();
   }
 
-  /*DEBUT ESSAI DE LA METHODE RECUPERATION PAR SECTIONS
-  @Get(':section')
-  async sectionArticle(@Param('section') section:string) {
+  @Get('search')
+  async sectionArticle(@Query() section:string) {
     return await this.articlesService.getBySection(section);
-  }*/
+  }
+
+  
 
   @Post()
     async  createArticle(@Body() articleDTO: CreateArticleDTO) {
