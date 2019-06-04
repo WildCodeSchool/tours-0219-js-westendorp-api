@@ -11,4 +11,9 @@ export class AuthController {
     await this.authService.validatePassword(authenticationCreateDTO);
     return this.authService.signIn(authenticationCreateDTO.email);
   }
+
+  @Post('signup')
+  async signup(@Body() authenticationCreateDTO: AuthenticationCreateDTO) {
+    await this.authService.signUp(authenticationCreateDTO);
+  }
 }

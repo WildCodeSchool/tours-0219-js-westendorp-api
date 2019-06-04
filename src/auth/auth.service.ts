@@ -19,12 +19,18 @@ export class AuthService {
     return { token: this.jwtService.sign(partner) };
   }
 
+  async signUp(user: AuthenticationCreateDTO): Promise<any> {
+    const userCreated = new this.authenticationModel(user);
+    return await userCreated.save();
+    // return { token: this.jwtService.sign(partner) };
+  }
+
   async validateMail(payload: JwtPayload): Promise<any> {
     return await this.authenticationModel.findOne({ email: payload.email });
   }
 
   async validatePassword(partner: AuthenticationCreateDTO): Promise<any> {
-    const userFinding = await this.authenticationModel.findOne({ email: partner.email });
+    const userFinding = await this.authenticationModel.findOne({ email: partner.email }).exec();
     if (userFinding.password !== partner.password) {
       throw new UnauthorizedException();
     } else {

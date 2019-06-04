@@ -6,7 +6,10 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [MongooseModule.forRoot(
-    'mongodb+srv://admin:transformer2019@cluster0-vfkte.azure.mongodb.net/Westendorp?retryWrites=true'),
+// tslint:disable-next-line: max-line-length
+    'mongodb+srv://admin:transformer2019@cluster0-vfkte.azure.mongodb.net/Westendorp?retryWrites=true',
+    { useNewUrlParser: true },
+    ),
     ArticlesModule,
     MediasModule,
     AuthModule],
