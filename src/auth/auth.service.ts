@@ -8,14 +8,15 @@ import { AuthenticationCreateDTO } from './authentication.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(@InjectModel('authentication')
+  constructor(
+    @InjectModel('authentication')
     private readonly jwtService: JwtService,
-              private readonly authenticationModel:Model<Authentication>
-              )
-   {}
+    private readonly authenticationModel: Model<Authentication>,
+  ) { }
 
   async signIn(email: string) {
-    const user: JwtPayload = { email: 'test@email.com' ,
+    const user: JwtPayload = {
+      email: 'test@email.com',
     };
     const accessToken = this.jwtService.sign(user);
     return {
@@ -28,7 +29,7 @@ export class AuthService {
     return await this.authenticationModel.findOne({ user: payload.email });
   }
 
-  async validatePassword(partner: AuthenticationCreateDTO) : Promise<any> {
+  async validatePassword(partner: AuthenticationCreateDTO): Promise<any> {
     const userFinding = await this.authenticationModel.findOne({ email: partner.email });
     if (userFinding.password !== partner.password) {
       throw new UnauthorizedException();

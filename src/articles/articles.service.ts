@@ -9,9 +9,9 @@ import { UpdateArticleDTO } from './articles.dto.update';
 export class ArticlesService {
   constructor(
     @InjectModel('articles') private readonly articlesModel: Model<Articles>,
-  ) {}
+  ) { }
 
- async getBySection(section:string):Promise<Articles[]> {
+  async getBySection(section: string): Promise<Articles[]> {
     return await this.articlesModel.find(section).exec();
   }
 
