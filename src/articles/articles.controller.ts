@@ -5,7 +5,7 @@ import { UpdateArticleDTO } from './articles.dto.update';
 
 @Controller('articles')
 export class ArticlesController {
-  constructor (private readonly articlesService:ArticlesService) {}
+  constructor(private readonly articlesService: ArticlesService) { }
 
 
   @Get()
@@ -14,29 +14,27 @@ export class ArticlesController {
   }
 
   @Get('search')
-  async sectionArticle(@Query() section:string) {
+  async sectionArticle(@Query() section: string) {
     return await this.articlesService.getBySection(section);
   }
 
-  
-
   @Post()
-    async  createArticle(@Body() articleDTO: CreateArticleDTO) {
+  async  createArticle(@Body() articleDTO: CreateArticleDTO) {
     return await this.articlesService.create(articleDTO);
   }
 
   @Put(':id')
-  async updateArticle(@Param('id') id:string, @Body() articleDTO: UpdateArticleDTO) {
+  async updateArticle(@Param('id') id: string, @Body() articleDTO: UpdateArticleDTO) {
     return await this.articlesService.update(id, articleDTO);
   }
 
   @Delete(':id')
-  async removeArticle(@Param('id') id:string) {
+  async removeArticle(@Param('id') id: string) {
     return await this.articlesService.delete(id);
   }
 
   @Get(':id')
-    async readOne(@Param('id') id: string) {
+  async readOne(@Param('id') id: string) {
     return await this.articlesService.getById(id);
   }
 
