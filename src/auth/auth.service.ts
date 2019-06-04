@@ -8,11 +8,10 @@ import { AuthenticationCreateDTO } from './authentication.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    @InjectModel('authentication')
-    private readonly jwtService: JwtService,
-    private readonly authenticationModel: Model<Authentication>,
-  ) { }
+  constructor(@InjectModel('authentication')
+              private readonly authenticationModel:Model<Authentication>, 
+              private readonly jwtService: JwtService)
+   {}
 
   async signIn(email: string) {
     const user: JwtPayload = {
