@@ -1,21 +1,39 @@
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Injectable } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
 import { JwtPayload } from './jwt-payload.interface';
+import { Model } from 'mongoose';
+import { Authentication } from './authentication';
+import { InjectModel } from '@nestjs/mongoose';
+import { AuthenticationCreateDTO } from './authentication.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(
-        private readonly usersService: UsersService,
-        private readonly jwtService: JwtService,
-        ) {}
+  constructor(@InjectModel('authentication')
+    private readonly jwtService: JwtService,
+              private readonly authenticationModel:Model<Authentication>
+              )
+   {}
 
-  async signIn(): Promise<string> {
-    const user: JwtPayload = { email: 'user@email.com' };
-    return this.jwtService.sign(user);
+  async signIn(email: string) {
+    const user: JwtPayload = { email: 'test@email.com' ,
+    };
+    const accessToken = this.jwtService.sign(user);
+    return {
+      accessToken,
+      expiresIn: 3600,
+    };
   }
 
-  async validateUser(payload: JwtPayload): Promise<any> {
-    return await this.usersService.findOneByEmail(payload.email);
+  async validateMail(payload: JwtPayload): Promise<any> {
+    return await this.authenticationModel.findOne({ user: payload.email });
+  }
+
+  async validatePassword(partner: AuthenticationCreateDTO) : Promise<any> {
+    const userFinding = await this.authenticationModel.findOne({ email: partner.email });
+    if (userFinding.password !== partner.password) {
+      throw new UnauthorizedException();
+    } else {
+      return userFinding;
+    }
   }
 }
