@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { JwtModule } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategie';
 import { PassportModule } from '@nestjs/passport';
@@ -16,7 +16,7 @@ import { authSchema } from './auth.schema';
         expiresIn: 3600,
       },
     }),
-    MongooseModule.forFeature([{ name: 'authentication', schema: authSchema }]),
+    MongooseModule.forFeature([{ name: 'authentification', schema: authSchema }]),
   ],
   providers: [AuthService, JwtStrategy],
   exports: [PassportModule, AuthService],
