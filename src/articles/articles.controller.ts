@@ -7,7 +7,6 @@ import { UpdateArticleDTO } from './articles.dto.update';
 export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) { }
 
-
   @Get()
   async readAll() {
     return await this.articlesService.getAll();
