@@ -1,6 +1,6 @@
 import { Document } from 'mongoose';
 
-export interface Articles extends Document{
+export interface Article extends Document{
   readonly id: String;
   readonly title: String;
   readonly content: String;
