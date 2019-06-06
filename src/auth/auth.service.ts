@@ -22,7 +22,6 @@ export class AuthService {
   async signUp(user: AuthenticationCreateDTO): Promise<any> {
     const userCreated = new this.authenticationModel(user);
     return await userCreated.save();
-    // return { token: this.jwtService.sign(partner) };
   }
 
   async validateMail(payload: JwtPayload): Promise<any> {

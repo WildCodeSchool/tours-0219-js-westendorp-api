@@ -1,6 +1,6 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Articles } from './articles';
+import { Article } from './article';
 import { Model } from 'mongoose';
 import { CreateArticleDTO } from './articles.dto.create';
 import { UpdateArticleDTO } from './articles.dto.update';
@@ -8,20 +8,19 @@ import { UpdateArticleDTO } from './articles.dto.update';
 @Injectable()
 export class ArticlesService {
   constructor(
-    @InjectModel('articles') private readonly articlesModel: Model<Articles>,
+    @InjectModel('articles') private readonly articlesModel: Model<Article>,
   ) { }
 
-  async getBySection(section: string): Promise<Articles[]> {
+  async getBySection(section: string): Promise<Article[]> {
     return await this.articlesModel.find(section).exec();
   }
 
-  async getAll(): Promise<Articles[]> {
+  async getAll(): Promise<Article[]> {
     return await this.articlesModel.find().exec();
   }
 
-
-  async create(articleDTO: CreateArticleDTO): Promise<Articles> {
-    const model: Articles = new this.articlesModel(articleDTO);
+  async create(articleDTO: CreateArticleDTO): Promise<Article> {
+    const model: Article = new this.articlesModel(articleDTO);
     return await model.save();
   }
 
@@ -34,7 +33,7 @@ export class ArticlesService {
     }
     return article;
   }
-  async delete(id: string): Promise<Articles> {
+  async delete(id: string): Promise<Article> {
     const article = await this.articlesModel.findByIdAndRemove(id);
     if (!article) {
       throw new HttpException("Doesn't exist", HttpStatus.NOT_FOUND);
@@ -42,7 +41,7 @@ export class ArticlesService {
     return article;
   }
 
-  async getById(id: string): Promise<Articles> {
+  async getById(id: string): Promise<Article> {
     const article = await this.articlesModel.findById(id);
     if (!article) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
