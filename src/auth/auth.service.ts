@@ -38,7 +38,6 @@ export class AuthService {
   }
 
   async update(id: string, authModel: AuthenticationCreateDTO) {
-    console.log("salut");
     const user = await this.authenticationModel.findByIdAndUpdate(id, authModel, {
       new: true,
     });
