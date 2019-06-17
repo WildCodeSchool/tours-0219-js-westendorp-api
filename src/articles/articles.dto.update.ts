@@ -6,4 +6,5 @@ export class UpdateArticleDTO{
   readonly author: string;
   readonly section: string;
   readonly media: string;
+  readonly rank: number;
 }

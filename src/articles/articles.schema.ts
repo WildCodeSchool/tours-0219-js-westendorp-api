@@ -8,4 +8,5 @@ export const articlesSchema = new mongoose.Schema({
   author: String,
   section: String,
   media: String,
+  rank: Number,
 });

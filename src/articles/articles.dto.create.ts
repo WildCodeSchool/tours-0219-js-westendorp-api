@@ -5,4 +5,5 @@ export class CreateArticleDTO{
   readonly author: string;
   readonly section: string;
   readonly media: string;
+  readonly rank: number;
 }
