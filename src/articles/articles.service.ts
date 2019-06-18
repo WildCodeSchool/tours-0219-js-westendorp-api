@@ -52,8 +52,8 @@ export class ArticlesService {
   async updateRanking(articlesArray: Article[]): Promise<Article[]> {
     const articles: Article[] = [];
     for (let i = 0; i < articlesArray.length; i = i + 1) {
-      let article = await this.articlesModel
-      .findByIdAndUpdate(articlesArray[i]._id, { $set: { rank: articlesArray[i].rank }});
+      const article = await this.articlesModel
+      .findByIdAndUpdate(articlesArray[i]._id, { $set: { rank: articlesArray[i].rank } });
       if (!article) {
         throw new HttpException("Doesn't exist", HttpStatus.NOT_FOUND);
       }
