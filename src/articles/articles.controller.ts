@@ -3,6 +3,7 @@ import { ArticlesService } from './articles.service';
 import { CreateArticleDTO } from './articles.dto.create';
 import { UpdateArticleDTO } from './articles.dto.update';
 import { AuthGuard } from '@nestjs/passport';
+import { Article } from './article';
 
 @Controller('articles')
 export class ArticlesController {
@@ -39,6 +40,12 @@ export class ArticlesController {
   @Get(':id')
   async readOne(@Param('id') id: string) {
     return await this.articlesService.getById(id);
+  }
+
+  @Put()
+  @UseGuards(AuthGuard())
+  async updateArticlesRank(@Body() articlesArray: Article[]) {
+    return await this.articlesService.updateRanking(articlesArray);
   }
 
 }

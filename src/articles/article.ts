@@ -8,4 +8,5 @@ export interface Article extends Document{
   readonly author: String;
   readonly section: String;
   readonly media: String;
+  readonly rank: Number;
 }
