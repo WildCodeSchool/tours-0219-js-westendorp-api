@@ -12,7 +12,7 @@ export class ArticlesService {
   ) { }
 
   async getBySection(section: string): Promise<Article[]> {
-    return await this.articlesModel.find(section).exec();
+    return await this.articlesModel.find(section).sort({ rank: 1 }).exec();
   }
 
   async getAll(): Promise<Article[]> {
