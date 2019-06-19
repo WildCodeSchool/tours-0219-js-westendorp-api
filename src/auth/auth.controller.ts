@@ -17,8 +17,4 @@ export class AuthController {
     await this.authService.signUp(authenticationCreateDTO);
   }
 
-  @Put(':id')
-  async updateArticle(@Param('id') id: string, @Body() authDTO: AuthenticationCreateDTO) {
-    return await this.authService.update(id, authDTO);
-  }
 }
