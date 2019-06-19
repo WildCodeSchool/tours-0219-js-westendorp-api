@@ -6,6 +6,11 @@ import { AuthenticationCreateDTO } from './authentication.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) { }
 
+  @Put(':id')
+  async updateArticle(@Param('id') id: string, @Body() authDTO: AuthenticationCreateDTO) {
+    return await this.authService.update(id, authDTO);
+  }
+
   @Post('signin')
   async signin(@Body() authenticationCreateDTO: AuthenticationCreateDTO) {
     await this.authService.validatePassword(authenticationCreateDTO);
@@ -17,8 +22,4 @@ export class AuthController {
     await this.authService.signUp(authenticationCreateDTO);
   }
 
-  @Put(':id')
-  async updateArticle(@Param('id') id: string, @Body() authDTO: AuthenticationCreateDTO) {
-    return await this.authService.update(id, authDTO);
-  }
 }
