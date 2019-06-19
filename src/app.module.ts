@@ -12,6 +12,7 @@ require('dotenv').config();
     ),
     ArticlesModule,
     MediasModule,
-    AuthModule],
+    AuthModule,
+  ],
 })
 export class AppModule {}
