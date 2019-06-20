@@ -53,7 +53,7 @@ export class ArticlesService {
     const articles: Article[] = [];
     for (let i = 0; i < articlesArray.length; i = i + 1) {
       const article = await this.articlesModel
-      .findByIdAndUpdate(articlesArray[i]._id, { $set: { rank: articlesArray[i].rank } });
+      .findByIdAndUpdate(articlesArray[i]._id, { $set: { rank: articlesArray[i].rank } }, {new: true});
       if (!article) {
         throw new HttpException("Doesn't exist", HttpStatus.NOT_FOUND);
       }
