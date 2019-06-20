@@ -82,4 +82,15 @@ export class AuthService {
     }
     return user;
   }
+
+  async validateeMail(findem: AuthenticationCreateDTO): Promise<any> {
+    const emailFinding = await this.authenticationModel
+      .findOne({ email: findem.email })
+      .exec();
+    if (emailFinding.email !== findem.email) {
+      throw new UnauthorizedException();
+    } else {
+      return emailFinding;
+    }
+  }
 }
