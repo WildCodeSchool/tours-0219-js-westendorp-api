@@ -61,7 +61,17 @@ export class ArticlesService {
       }
       articles.push(article);
     }
-    return articles;
+    return articles.sort(this.compare);
+  }
+
+  compare(a: Article, b: Article) {
+    let comparison = 0;
+    if (a.rank > b.rank) {
+      comparison = 1;
+    } else if (a.rank < b.rank) {
+      comparison = -1;
+    }
+    return comparison;
   }
 
 }
