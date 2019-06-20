@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Post, Body } from '@nestjs/common';
+import { Controller, UseGuards, Post, Body, Get, Put, Param } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthenticationCreateDTO } from './authentication.dto';
 
@@ -15,5 +15,10 @@ export class AuthController {
   @Post('signup')
   async signup(@Body() authenticationCreateDTO: AuthenticationCreateDTO) {
     await this.authService.signUp(authenticationCreateDTO);
+  }
+
+  @Put(':id')
+  async updatePassword(@Param('id') id: string, @Body() authDTO: AuthenticationCreateDTO) {
+    return await this.authService.update(id, authDTO);
   }
 }

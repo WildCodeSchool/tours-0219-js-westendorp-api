@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, HttpException, HttpStatus } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './jwt-payload.interface';
 import { Model } from 'mongoose';
@@ -34,6 +34,15 @@ export class AuthService {
       throw new UnauthorizedException();
     } else {
       return userFinding;
+    }
+  }
+
+  async update(id: string, authModel: AuthenticationCreateDTO) {
+    const user = await this.authenticationModel.findByIdAndUpdate(id, authModel, {
+      new: true,
+    });
+    if (!user) {
+      throw new HttpException('The request is incorrect', HttpStatus.BAD_REQUEST);
     }
   }
 }

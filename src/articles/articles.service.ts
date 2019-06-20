@@ -12,7 +12,7 @@ export class ArticlesService {
   ) { }
 
   async getBySection(section: string): Promise<Article[]> {
-    return await this.articlesModel.find(section).exec();
+    return await this.articlesModel.find(section).sort({ rank: 1 }).exec();
   }
 
   async getAll(): Promise<Article[]> {
@@ -48,4 +48,18 @@ export class ArticlesService {
     }
     return article;
   }
+
+  async updateRanking(articlesArray: Article[]): Promise<Article[]> {
+    const articles: Article[] = [];
+    for (let i = 0; i < articlesArray.length; i = i + 1) {
+      const article = await this.articlesModel
+      .findByIdAndUpdate(articlesArray[i]._id, { $set: { rank: articlesArray[i].rank } });
+      if (!article) {
+        throw new HttpException("Doesn't exist", HttpStatus.NOT_FOUND);
+      }
+      articles.push(article);
+    }
+    return articles;
+  }
+
 }
