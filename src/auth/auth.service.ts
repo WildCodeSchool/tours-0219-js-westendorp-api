@@ -9,9 +9,9 @@ import { JwtPayload } from './jwt-payload.interface';
 import { Model } from 'mongoose';
 import { Authentication } from './authentication';
 import { InjectModel } from '@nestjs/mongoose';
-import { AuthenticationCreateDTO } from './authentication.dto';
+import { AuthenticationCreateDTO } from './authentication.dto.create';
 import { MailerService } from '@nest-modules/mailer';
-import { AuthenticationPassDTO } from './authenticationreset.dto';
+import { AuthenticationPassDTO } from './authentication.dto.reset';
 
 @Injectable()
 export class AuthService {
@@ -47,9 +47,9 @@ export class AuthService {
     }
   }
 
-  async update(id: string, authModel: AuthenticationCreateDTO) {
-    const user = await this.authenticationModel.findByIdAndUpdate(
-      id,
+  async update(email: string, authModel: AuthenticationCreateDTO) {
+    const user = await this.authenticationModel.findOneAndUpdate(
+      email,
       authModel,
       {
         new: true,

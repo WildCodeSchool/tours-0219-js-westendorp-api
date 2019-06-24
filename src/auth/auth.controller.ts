@@ -1,19 +1,22 @@
 import { Controller, UseGuards, Post, Body, Get, Put, Param } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthenticationCreateDTO } from './authentication.dto';
+import { AuthenticationCreateDTO } from './authentication.dto.create';
 import { MailerService } from '@nest-modules/mailer';
-import { AuthenticationPassDTO } from './authenticationreset.dto';
-import { combineLatest } from 'rxjs';
-import { JwtPayload } from 'dist/auth/jwt-payload.interface';
+import { AuthenticationPassDTO } from './authentication.dto.reset';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService,
-              private readonly mailerService: MailerService) { }
+  constructor(
+    private readonly authService: AuthService,
+    private readonly mailerService: MailerService) { }
 
-  @Put(':id')
-  async updateArticle(@Param('id') id: string, @Body() authDTO: AuthenticationCreateDTO) {
-    return await this.authService.update(id, authDTO);
+  @Put(':email')
+  @UseGuards(AuthGuard())
+  async updateUserPassword(
+    @Param('email') email: string,
+    @Body() authDTO: AuthenticationCreateDTO) {
+    return await this.authService.update(email, authDTO);
   }
 
   @Post('signin')
@@ -54,20 +57,18 @@ export class AuthController {
     }
     const newPass = randomPassword(6);
     const user = new AuthenticationPassDTO(newPass);
-
-    console.log(user);
     await this.authService.updatePassword(user);
     await this
-    .mailerService
-    .sendMail({
-      to: 'felixok7@gmail.com', // sender address
-      from: 'westen.dorp.wildcs@gmail.com', // list of receivers
-      subject: 'Réinitialisation du mot de passe', // Subject line
-      text: '', // plaintext body
-      html: `<b>Vous avez demandé la réinitialisation de votre mot de passe.<br>
+      .mailerService
+      .sendMail({
+        to: 'felixok7@gmail.com', // sender address
+        from: 'westen.dorp.wildcs@gmail.com', // list of receivers
+        subject: 'Réinitialisation du mot de passe', // Subject line
+        text: '', // plaintext body
+        html: `<b>Vous avez demandé la réinitialisation de votre mot de passe.<br>
        Veuillez trouver ci-joint votre nouveau mot de passe : ${newPass}</b>`, // HTML body content
-    })
-    .then(() => {})
-    .catch(() => {}) ;
+      })
+      .then(() => { })
+      .catch(() => { });
   }
 }
