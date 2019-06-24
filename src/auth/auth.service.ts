@@ -66,7 +66,6 @@ export class AuthService {
 
   async updatePassword(authModel: AuthenticationPassDTO) {
     const user = await this.authenticationModel.findOne();
-    console.log(user);
     await this.authenticationModel.findByIdAndUpdate(
       user.id,
       { password: authModel.password },
