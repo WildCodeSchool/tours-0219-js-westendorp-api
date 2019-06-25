@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { Module, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ArticlesModule } from './articles/articles.module';
 import { MediasModule } from './medias/medias.module';
 import { AuthModule } from './auth/auth.module';
+import { UploadModule } from './upload/upload.module';
 
 require('dotenv').config();
 @Module({
@@ -10,6 +11,7 @@ require('dotenv').config();
     process.env.DBURI,
     { useNewUrlParser: true },
     ),
+    UploadModule,
     ArticlesModule,
     MediasModule,
     AuthModule],
