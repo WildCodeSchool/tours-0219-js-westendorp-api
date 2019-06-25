@@ -45,7 +45,8 @@ export class AuthController {
   }
 
   @Post('forget')
-  async forgetPassword() {
+  async forgetPassword(@Body() authentication: AuthenticationCreateDTO) {
+    const emailfind = await this.authService.validateeMail(authentication);
     function randomPassword(length) {
       const chars = 'abcdefghijklmnopqrstuvwxyz!@#$%^&*()-+<>ABCDEFGHIJKLMNOP1234567890';
       let pass = '';
@@ -61,11 +62,11 @@ export class AuthController {
     await this
       .mailerService
       .sendMail({
-        to: 'felixok7@gmail.com', // sender address
+        to: `${emailfind.email}`, // sender address
         from: 'westen.dorp.wildcs@gmail.com', // list of receivers
         subject: 'Réinitialisation du mot de passe', // Subject line
         text: '', // plaintext body
-        html: `<b>Vous avez demandé la réinitialisation de votre mot de passe.<br>
+        html: `<b>Vous avez demandé la réinitialisation de votre mot de passe.
        Veuillez trouver ci-joint votre nouveau mot de passe : ${newPass}</b>`, // HTML body content
       })
       .then(() => { })
