@@ -3,9 +3,9 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class UploadService {
 
-  async getImage(): Promise<Any> {
-    return await 
-  }
+  // async getImage(): Promise<Any> {
+  //   return await 
+  // }
 
 
 }

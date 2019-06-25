@@ -7,7 +7,8 @@ import { UploadModule } from './upload/upload.module';
 
 require('dotenv').config();
 @Module({
-  imports: [MongooseModule.forRoot(
+  imports: [
+    MongooseModule.forRoot(
     process.env.DBURI,
     { useNewUrlParser: true },
     ),
