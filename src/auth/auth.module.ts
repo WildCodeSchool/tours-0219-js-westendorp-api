@@ -6,6 +6,7 @@ import { PassportModule } from '@nestjs/passport';
 import { AuthController } from './auth.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { authSchema } from './auth.schema';
+import { MailerModule } from '@nest-modules/mailer';
 
 @Module({
   imports: [
@@ -20,6 +21,18 @@ import { authSchema } from './auth.schema';
       name: 'authentication', schema: authSchema,
       collection: 'authentication',
     }]),
+    MailerModule.forRoot({
+      transport: ({
+        service: 'gmail',
+        auth: {
+          user: 'westen.dorp.wildcs@gmail.com',
+          pass: 'transformer2019',
+        },
+      }),
+      defaults: {
+        from:'"nest-modules" <modules@nestjs.com>',
+      },
+    }),
   ],
   providers: [AuthService, JwtStrategy],
   exports: [PassportModule, AuthService],

@@ -14,6 +14,7 @@ require('dotenv').config();
     UploadModule,
     ArticlesModule,
     MediasModule,
-    AuthModule],
+    AuthModule,
+  ],
 })
 export class AppModule {}
