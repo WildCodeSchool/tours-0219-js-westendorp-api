@@ -1,18 +1,26 @@
-import { Injectable, UnauthorizedException, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './jwt-payload.interface';
 import { Model } from 'mongoose';
 import { Authentication } from './authentication';
 import { InjectModel } from '@nestjs/mongoose';
-import { AuthenticationCreateDTO } from './authentication.dto';
+import { AuthenticationCreateDTO } from './authentication.dto.create';
+import { MailerService } from '@nest-modules/mailer';
+import { AuthenticationPassDTO } from './authentication.dto.reset';
 
 @Injectable()
 export class AuthService {
-
   constructor(
     @InjectModel('authentication')
     private readonly authenticationModel: Model<Authentication>,
-    private readonly jwtService: JwtService) { }
+    private readonly jwtService: JwtService,
+    private readonly mailerService: MailerService,
+  ) {}
 
   async signIn(mail: string): Promise<any> {
     const partner: JwtPayload = { email: mail };
@@ -29,7 +37,9 @@ export class AuthService {
   }
 
   async validatePassword(partner: AuthenticationCreateDTO): Promise<any> {
-    const userFinding = await this.authenticationModel.findOne({ email: partner.email }).exec();
+    const userFinding = await this.authenticationModel
+      .findOne({ email: partner.email })
+      .exec();
     if (userFinding.password !== partner.password) {
       throw new UnauthorizedException();
     } else {
@@ -37,13 +47,49 @@ export class AuthService {
     }
   }
 
-  async update(id: string, authModel: AuthenticationCreateDTO) {
-    console.log(id, authModel, 'wdwdc');
-    const user = await this.authenticationModel.findOneAndUpdate(id, authModel, {
-      new: true,
-    });
+  async update(email: string, authModel: AuthenticationCreateDTO) {
+    const user = await this.authenticationModel.findOneAndUpdate(
+      email,
+      authModel,
+      {
+        new: true,
+      },
+    );
     if (!user) {
-      throw new HttpException('The request is incorrect', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        'The request is incorrect',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return user;
+  }
+
+  async updatePassword(authModel: AuthenticationPassDTO) {
+    const user = await this.authenticationModel.findOne();
+    await this.authenticationModel.findByIdAndUpdate(
+      user.id,
+      { password: authModel.password },
+      {       new: true,
+      },
+    ).exec();
+
+    if (!user) {
+      throw new HttpException(
+        'The request is incorrect',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return user;
+  }
+
+  async validateeMail(findem: AuthenticationCreateDTO): Promise<any> {
+    const emailFinding = await this.authenticationModel
+      .findOne({ email: findem.email })
+      .exec();
+    if (emailFinding.email !== findem.email) {
+      throw new UnauthorizedException();
+    } else {
+      return emailFinding;
     }
   }
 }
