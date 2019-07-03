@@ -16,7 +16,8 @@ export class ArticlesController {
 
   @Get('search')
   async sectionArticle(@Query() section: string) {
-    return await this.articlesService.getBySection(section);
+    const articles =  await this.articlesService.getBySection(section);
+    return articles.map(a => a.toJSON({ virtuals: true }));
   }
 
   @Post()
