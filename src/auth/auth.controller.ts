@@ -66,8 +66,10 @@ export class AuthController {
         from: process.env.MAILER_SENDER, // list of receivers
         subject: 'Réinitialisation du mot de passe', // Subject line
         text: '', // plaintext body
-        html: `<b>Vous avez demandé la réinitialisation de votre mot de passe.
-       Veuillez trouver ci-joint votre nouveau mot de passe : ${newPass}</b>`, // HTML body content
+        html: `<b>Vous avez demandé la réinitialisation de votre mot de passe.<br>
+        Veuillez trouver ci-joint votre nouveau mot de passe temporaire: ${newPass}
+        Vous pourrez le modifier en vous connectant dans la partie administrateur puis dans l'onglet "Mon Compte".
+        </b>`,
       })
       .then(() => { })
       .catch(() => { });
