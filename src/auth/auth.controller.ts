@@ -63,7 +63,7 @@ export class AuthController {
       .mailerService
       .sendMail({
         to: `${emailfind.email}`, // sender address
-        from: 'westen.dorp.wildcs@gmail.com', // list of receivers
+        from: process.env.MAILER_SENDER, // list of receivers
         subject: 'Réinitialisation du mot de passe', // Subject line
         text: '', // plaintext body
         html: `<b>Vous avez demandé la réinitialisation de votre mot de passe.

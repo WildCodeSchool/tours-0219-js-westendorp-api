@@ -19,7 +19,7 @@ export class AuthService {
     @InjectModel('authentication')
     private readonly authenticationModel: Model<Authentication>,
     private readonly jwtService: JwtService,
-  ) { }
+  ) {}
 
   async signIn(mail: string): Promise<any> {
     const partner: JwtPayload = { email: mail };
