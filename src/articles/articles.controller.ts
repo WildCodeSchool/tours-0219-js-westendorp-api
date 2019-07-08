@@ -23,7 +23,8 @@ export class ArticlesController {
   @Post()
   @UseGuards(AuthGuard())
   async  createArticle(@Body() articleDTO: CreateArticleDTO) {
-    return await this.articlesService.create(articleDTO);
+    const articles = await this.articlesService.create(articleDTO);
+    return articles.toJSON({ virtuals: true });
   }
 
   @Put(':id')
@@ -46,7 +47,8 @@ export class ArticlesController {
   @Put()
   @UseGuards(AuthGuard())
   async updateArticlesRank(@Body() articlesArray: Article[]) {
-    return await this.articlesService.updateRanking(articlesArray);
+    const articles = await this.articlesService.updateRanking(articlesArray);
+    return articles.map(a => a.toJSON({ virtuals: true }));
   }
 
 }
