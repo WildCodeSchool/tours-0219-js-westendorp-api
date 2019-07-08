@@ -66,7 +66,9 @@ export class AuthController {
         subject: 'Réinitialisation du mot de passe', // Subject line
         text: '', // plaintext body
         html: `<b>Vous avez demandé la réinitialisation de votre mot de passe.<br>
-       Veuillez trouver ci-joint votre nouveau mot de passe : ${newPass}</b>`, // HTML body content
+       Veuillez trouver ci-joint votre nouveau mot de passe : ${newPass}
+       Vous pourrez le modifier dans la partie administrateur puis dans "Mon Compte".
+       </b>`, // HTML body content
       })
       .then(() => { })
       .catch(() => { });
