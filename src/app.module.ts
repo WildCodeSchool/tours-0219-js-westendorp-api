@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { UploadModule } from './upload/upload.module';
 
 require('dotenv').config();
+const bcrypt = require('bcrypt');
 @Module({
   imports: [
     MongooseModule.forRoot(
