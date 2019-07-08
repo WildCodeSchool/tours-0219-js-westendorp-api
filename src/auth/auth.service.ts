@@ -13,6 +13,7 @@ import { AuthenticationCreateDTO } from './authentication.dto.create';
 import { MailerService } from '@nest-modules/mailer';
 import { AuthenticationPassDTO } from './authentication.dto.reset';
 
+const user = require('./auth.schema');
 @Injectable()
 export class AuthService {
   constructor(
@@ -20,7 +21,7 @@ export class AuthService {
     private readonly authenticationModel: Model<Authentication>,
     private readonly jwtService: JwtService,
     private readonly mailerService: MailerService,
-  ) {}
+  ) { }
 
   async signIn(mail: string): Promise<any> {
     const partner: JwtPayload = { email: mail };
@@ -69,7 +70,8 @@ export class AuthService {
     await this.authenticationModel.findByIdAndUpdate(
       user.id,
       { password: authModel.password },
-      {       new: true,
+      {
+        new: true,
       },
     ).exec();
 
