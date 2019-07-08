@@ -6,29 +6,31 @@ export const authSchema = new mongoose.Schema({
   password: String,
 });
 
-authSchema.pre('save', (next) => {
+authSchema.pre('save', function (next) {
+  let user = this
   // generate a salt
-  bcrypt.genSalt(10, (err, salt) => {
+  bcrypt.genSalt(10, function (err, salt) {
     if (err) return next(err);
     // hash the password using our new salt
-    bcrypt.hash(this.password, salt, (err, hash) => {
+    bcrypt.hash(user.password, salt, function (err, hash) {
       if (err) return next(err);
       // override the cleartext password with the hashed one
-      this.password = hash;
+      user.password = hash;
       next();
     });
   });
 });
 
-authSchema.pre('findOneAndUpdate', (next) => {
+authSchema.pre('findOneAndUpdate', function (next) {
+  let user = this
   // generate a salt
-  bcrypt.genSalt(10, (err, salt) => {
+  bcrypt.genSalt(10, function (err, salt) {
     if (err) return next(err);
     // hash the password using our new salt
-    bcrypt.hash(this._update.password, salt, (err, hash) => {
+    bcrypt.hash(user._update.password, salt, function (err, hash) {
       if (err) return next(err);
       // override the cleartext password with the hashed one
-      this._update.password = hash;
+      user._update.password = hash;
       next();
     });
   });
