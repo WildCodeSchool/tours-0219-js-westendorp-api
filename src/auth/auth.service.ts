@@ -10,17 +10,15 @@ import { Model } from 'mongoose';
 import { Authentication } from './authentication';
 import { InjectModel } from '@nestjs/mongoose';
 import { AuthenticationCreateDTO } from './authentication.dto.create';
-import { MailerService } from '@nest-modules/mailer';
 import { AuthenticationPassDTO } from './authentication.dto.reset';
+import * as bcrypt from 'bcrypt';
 
-const user = require('./auth.schema');
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel('authentication')
     private readonly authenticationModel: Model<Authentication>,
     private readonly jwtService: JwtService,
-    private readonly mailerService: MailerService,
   ) { }
 
   async signIn(mail: string): Promise<any> {
@@ -41,11 +39,10 @@ export class AuthService {
     const userFinding = await this.authenticationModel
       .findOne({ email: partner.email })
       .exec();
-    if (userFinding.password !== partner.password) {
+    if (!bcrypt.compareSync(partner.password, userFinding.password)) {
       throw new UnauthorizedException();
-    } else {
-      return userFinding;
     }
+    return userFinding;
   }
 
   async update(email: string, authModel: AuthenticationCreateDTO) {
