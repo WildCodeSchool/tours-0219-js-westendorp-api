@@ -7,8 +7,13 @@ import {
   Get,
   Param,
   Res,
+  Render,
+  Header,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { readdirSync, statSync } from 'fs';
+import { join } from 'path';
+
 
 @Controller()
 
@@ -20,12 +25,23 @@ export class UploadController {
     console.log('yo');
   }
 
-  /*   @Get(':imgpath')
-    seeUploadedFile(@Param('imgpath') image, @Res() res) {
-      return res.sendFile(image, { root: './uploads' });
-    } */
+  @Get('upload/browse')
+  @Render('index')
+  async root() {
+    const files = readdirSync(process.env.UPLOAD_PATH);
 
-/*   test(@Res() res) {
-    res.
-  } */
+    const images = files.filter((f) => {
+      if (statSync(join(process.env.UPLOAD_PATH, f)).isFile()) {
+        const ext = f.split('.').pop();
+        return (/(gif|jpe?g|tiff|web|png|)$/i).test(ext);
+      }
+      return false;
+    })
+      .map(f => `/images/${f}`);
+    console.log(images);
+    return {
+      images,
+      message: 'Hello world!',
+    };
+  }
 }
