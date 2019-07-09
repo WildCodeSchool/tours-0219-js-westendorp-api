@@ -20,7 +20,7 @@ async function bootstrap() {
   app.enableCors();
 
   app.useStaticAssets(process.env.UPLOAD_PATH, { prefix: '/images/' });
-  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+  app.setBaseViewsDir('./views');
   app.setViewEngine('hbs');
 
   await app.listen(process.env.PORT);
