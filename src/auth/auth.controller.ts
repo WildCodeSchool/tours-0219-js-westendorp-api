@@ -45,7 +45,8 @@ export class AuthController {
   }
 
   @Post('forget')
-  async forgetPassword() {
+  async forgetPassword(@Body() authentication: AuthenticationCreateDTO) {
+    const emailfind = await this.authService.validateeMail(authentication);
     function randomPassword(length) {
       const chars = 'abcdefghijklmnopqrstuvwxyz!@#$%^&*()-+<>ABCDEFGHIJKLMNOP1234567890';
       let pass = '';
@@ -61,12 +62,14 @@ export class AuthController {
     await this
       .mailerService
       .sendMail({
-        to: 'felixok7@gmail.com', // sender address
-        from: 'westen.dorp.wildcs@gmail.com', // list of receivers
+        to: `${emailfind.email}`, // sender address
+        from: process.env.MAILER_SENDER, // list of receivers
         subject: 'Réinitialisation du mot de passe', // Subject line
         text: '', // plaintext body
         html: `<b>Vous avez demandé la réinitialisation de votre mot de passe.<br>
-       Veuillez trouver ci-joint votre nouveau mot de passe : ${newPass}</b>`, // HTML body content
+        Veuillez trouver ci-joint votre nouveau mot de passe temporaire: ${newPass}
+        Vous pourrez le modifier en vous connectant dans la partie administrateur puis dans l'onglet "Mon Compte".
+        </b>`,
       })
       .then(() => { })
       .catch(() => { });

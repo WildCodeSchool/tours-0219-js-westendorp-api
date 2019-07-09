@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { PassportModule } from '@nestjs/passport';
@@ -25,12 +25,12 @@ import { MailerModule } from '@nest-modules/mailer';
       transport: ({
         service: 'gmail',
         auth: {
-          user: 'westen.dorp.wildcs@gmail.com',
-          pass: 'transformer2019',
+          user: process.env.MAILER_SENDER,
+          pass: process.env.MAILER_PASSWORD,
         },
       }),
       defaults: {
-        from:'"nest-modules" <modules@nestjs.com>',
+        from: '"nest-modules" <modules@nestjs.com>',
       },
     }),
   ],
