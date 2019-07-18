@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Choose file</title>
     <script>
         // Helper function to get parameters from the query string.
         function getUrlParam(paramName) {
@@ -21,8 +21,11 @@
         }
         // Simulate user action of selecting a file to be returned to CKEditor.
         function returnFileUrl(file) {
+            var url = window.location.href;
+            var arr = url.split("/");
+            var result = arr[0] + "//" + arr[2]
             var funcNum = getUrlParam('CKEditorFuncNum');
-            var fileUrl = 'http://localhost:3000' + file;
+            var fileUrl = result + '/api' + file;
             console.log(fileUrl);
             window.opener.CKEDITOR.tools.callFunction(funcNum, fileUrl);
             window.close();
@@ -71,8 +74,7 @@
 </head>
 
 <body>
-    <h1>Hello, world!</h1>
-    <button onclick="returnFileUrl()">Select File</button>
+    <h1>Choose file</h1>
     <div class="container">
         <div class="row">
             <div class="row">
