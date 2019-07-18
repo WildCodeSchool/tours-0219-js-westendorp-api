@@ -25,7 +25,7 @@
             var arr = url.split("/");
             var result = arr[0] + "//" + arr[2]
             var funcNum = getUrlParam('CKEditorFuncNum');
-            var fileUrl = result + '/api' + file;
+            var fileUrl = result + file;
             console.log(fileUrl);
             window.opener.CKEDITOR.tools.callFunction(funcNum, fileUrl);
             window.close();
