@@ -12,7 +12,7 @@ import { MailerModule } from '@nest-modules/mailer';
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
-      secretOrPrivateKey: 'secretKey',
+      secretOrPrivateKey: process.env.SECRET_KEY,
       signOptions: {
         expiresIn: 3600,
       },
